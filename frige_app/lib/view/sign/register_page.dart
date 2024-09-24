@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: GoogleFonts.pacifico(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2E7D32), // 자연을 연상시키는 초록색
+                    color: const Color(0xFF2E7D32), // 자연을 연상시키는 초록색
                   ),
                 ),
                 Padding(
@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       placeholder: '아이디를 입력해주세요',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.notoSans(fontSize: 16),
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -78,7 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -95,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textAlign: TextAlign.center,
                       obscureText: true,
                       style: GoogleFonts.notoSans(fontSize: 16),
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -104,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       textAlign: TextAlign.center,
                       obscureText: true,
                       style: GoogleFonts.notoSans(fontSize: 16),
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -130,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -146,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       placeholder: '이름을 입력해주세요',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.notoSans(fontSize: 16),
-                      padding: EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
@@ -174,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: Text(
                           '뒤로가기',
                           style: GoogleFonts.notoSans(
-                            color: Color(0xFF2E7D32), // 자연을 연상시키는 초록색
+                            color: const Color(0xFF2E7D32), // 자연을 연상시키는 초록색
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -183,9 +183,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ElevatedButton(
                         onPressed: () async => await signUp(),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF2E7D32), // 배경색
-                          padding:
-                              EdgeInsets.symmetric(vertical: 9, horizontal: 25),
+                          backgroundColor: const Color(0xFF2E7D32), // 배경색
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 9, horizontal: 25),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -238,54 +238,47 @@ class _RegisterPageState extends State<RegisterPage> {
         pw: pwController.text.trim(),
         name: nameController.text.trim(),
       );
-      var result = handler.signUpUser(user);
+      var result = await handler.signUpUser(user);
       if (result == 0) {
         alertMessage("회원가입 중 오류가 발생했습니다.");
       } else {
-        signUpAlert(result[0], result[1])
+        signUpAlert(result[0], result[1]);
       }
     }
   }
 
   alertMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('알림'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              child: const Text('닫기'),
-              onPressed: () {
-                Get.back();
-              },
-            ),
-          ],
-        );
-      },
+    Get.dialog(
+      AlertDialog(
+        title: const Text('알림'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('닫기'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ],
+      ),
     );
   }
 
   signUpAlert(String state, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('알림'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              child: const Text('닫기'),
-              onPressed: () {
-                Get.offAll(
-                  () => 
-                );
-              },
-            ),
-          ],
-        );
-      },
+    Get.dialog(
+      AlertDialog(
+        title: const Text('알림'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            child: const Text('닫기'),
+            onPressed: () {
+              Get.back();
+              Get.back();
+            },
+          ),
+        ],
+      ),
     );
   }
 } // ed
