@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frige_app/view/home_appbar_tapbar.dart';
+import 'package:frige_app/view/appbar_tabbar.dart';
 import 'package:frige_app/view/sign/register_page.dart';
 import 'package:frige_app/vm/user_handler.dart';
 import 'package:get/get.dart';
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                           pwController.text = '';
                           box.write('desh_user_key', result[1]);
                           Get.to(
-                            () => const HomeAppbarTapbar(),
+                            () => const AppbarTabbar(),
                           );
                         } else {
                           popDialog('아이디 또는 비밀번호가 올바르지 않습니다.');

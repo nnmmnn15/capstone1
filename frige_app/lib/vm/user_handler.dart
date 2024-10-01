@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:frige_app/model/user.dart';
 import 'package:frige_app/vm/hash_password.dart';
+import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
-class UserHandler {
+class UserHandler extends GetxController {
   Future<bool> checkIdDuplicate(String id) async {
     // 아이디 중복 확인
     final url = Uri.parse('http://192.168.45.198:5000/check_id');

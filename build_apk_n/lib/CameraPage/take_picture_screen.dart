@@ -9,7 +9,12 @@ class TakePictureScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
   final String userKey;
   final String userName;
-  const TakePictureScreen({Key? key, required this.cameras, required this.userKey, required this.userName}) : super(key: key);
+  const TakePictureScreen(
+      {Key? key,
+      required this.cameras,
+      required this.userKey,
+      required this.userName})
+      : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -58,14 +63,14 @@ class TakePictureScreenState extends State<TakePictureScreen> {
         if (!mounted) return;
 
         final image = await _controller.takePicture();
-        
+
         Uint8List bytes = await image.readAsBytes();
         String base64Image = base64Encode(bytes);
 
         final response = await sendImageToServer(base64Image);
 
         if (response == "Image limit reached") {
-          if(mounted){
+          if (mounted) {
             Navigator.pop(context);
             showDialog(
               context: context,

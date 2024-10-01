@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frige_app/view/home_appbar_tapbar.dart';
+import 'package:frige_app/view/appbar_tabbar.dart';
 import 'package:frige_app/view/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -15,10 +15,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 200, 255, 202)),
           useMaterial3: true,
         ),
-        home: const SplashScreen() // const SplashScreen(),
+        home: const AppbarTabbar() // const SplashScreen(),
         );
   }
 }

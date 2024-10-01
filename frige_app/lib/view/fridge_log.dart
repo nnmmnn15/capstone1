@@ -1,33 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:frige_app/model/use_history.dart';
 import 'package:frige_app/vm/fridge_handler.dart';
+import 'package:get/get.dart';
 
-class FridgeLog extends StatefulWidget {
+class FridgeLog extends StatelessWidget {
   const FridgeLog({super.key});
 
   @override
-  State<FridgeLog> createState() => _FridgeLogState();
-}
-
-class _FridgeLogState extends State<FridgeLog> {
-  final FridgeHandler handler = FridgeHandler();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final fridgeHandler = Get.put(FridgeHandler());
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            TextButton(
-              onPressed: () => handler.fetchData(),
-              child: Text('test'),
-            ),
-          ],
-        ),
+      body: GetBuilder<FridgeHandler>(
+        builder: (controller) {
+          return FutureBuilder(
+            future: controller.fetchData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error : ${snapshot.error}'),
+                );
+              } else {
+                return Obx(
+                  () {
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        controller.fetchData();
+                      },
+                      child: ListView.builder(
+                        itemCount: fridgeHandler.useHistories.length,
+                        itemBuilder: (context, index) {
+                          UseHistory useHistory =
+                              fridgeHandler.useHistories[index];
+                          return ListTile(
+                            leading: Text(useHistory.userName),
+                            title: Text(
+                                '${useHistory.prdName} ${useHistory.quantity > 0 ? "+${useHistory.quantity}" : useHistory.quantity}'),
+                            trailing: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                    "${useHistory.usageDate.year}년 ${useHistory.usageDate.month.toString().padLeft(2, '0')}월 ${useHistory.usageDate.day.toString().padLeft(2, '0')}일"),
+                                Text(
+                                    "${useHistory.usageDate.hour.toString().padLeft(2, '0')}시 ${useHistory.usageDate.minute.toString().padLeft(2, '0')}분 ${useHistory.usageDate.second.toString().padLeft(2, '0')}초"),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          );
+        },
       ),
     );
   }
